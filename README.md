@@ -39,3 +39,33 @@ The solution as is now costs a total of around 30€:
 Custom module developped for ESPHome. Chosen between ESPEasy, Tasmota and Espurna because seemed easier (easier to read and understand code, very fast to pick up)
 
 Used PlatformIO as development environment.
+
+## Calibration
+In the ade7953.cpp file, replace lines 33 to 51 with:
+
+void ADE7953::update() {
+  if (!this->is_setup_)
+    return;
+
+  auto energy_buffer = &this->energy_buffer_ ;
+  ADE_PUBLISH(energy_buffer, 1.0f);
+  auto energy_diverted = &this->energy_diverted_ ;
+  ADE_PUBLISH(energy_diverted, 1.0f);  
+  auto active_power_a = this->ade_read_<int32_t>(0x0312);
+  ADE_PUBLISH(active_power_a, 435.0f);    
+  auto active_power_b = this->ade_read_<int32_t>(0x0313);
+  ADE_PUBLISH(active_power_b, 435.0f);
+  auto current_a = this->ade_read_<uint32_t>(0x031A);
+  ADE_PUBLISH(current_a, 281010.0f);  
+  auto current_b = this->ade_read_<uint32_t>(0x031B);
+  ADE_PUBLISH(current_b, 281010.0f);
+  auto voltage = this->ade_read_<uint32_t>(0x031C);
+  ADE_PUBLISH(voltage, 26000.0f);
+}
+These are the base values ​​for a CT (current transformer) of 2000:1 with a resistance of 22 Ohm.
+Here's a spreadsheet if you want to make changes: Google Sheets
+The "calculated current factor" is the initial basis for calculating the "current_a" (the "_b" are equal to the "_a"). To calibrate (if you can measure the current) you change current_a (in my case I had to increase it a bit), and the spreadsheet gives you the value for active_power.
+
+For higher amperages I will have to put a smaller resistance, right?
+
+Correct, for a higher limit you must decrease the resistance. I also included the calculation in the sheet
