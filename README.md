@@ -12,6 +12,7 @@ There are also already DIY solutions, listed here:https://learn.openenergymonito
 Studying those DIY solutions, they're comprised of some way to measure power, a solid state switch and a microcontroller to tie it all together. Something clicked and remebered that there are Sonoff and Shelly modules that incorporate a power meter, and controlling an external SSR should be trivial, bringing the cost down.
 
 Looking at how those modules metered power, found out that the Shelly 2.5 uses an ADE7953 https://www.analog.com/en/products/ade7953.html, which is a commercial meter grade IC. Other modules either are more expensive or used simpler ICs (pulse only).
+
 ADE7953 has a IRQ pin that when correctly programmed to read the power each AC cycle, allowing for precise control which was the basis of this code.
 
 As to not insert the diverter into the main power feed, I decided to use a split core current transformer. It isn't supported by the Shelly 2.5 but shouldn't be too hard do modify it.
@@ -67,6 +68,7 @@ void ADE7953::update() {
 ```
 These are the base values ​​for a CT (current transformer) of 2000:1 with a resistance of 22 Ohm.
 Here's a spreadsheet if you want to make changes: [Google Sheets](https://docs.google.com/spreadsheets/d/10r9y6UEH0_P3OAnRmqzOGrElQc8ZBHv0Mporhut8w8I/edit?usp=sharing)
+
 The "calculated current factor" is the initial basis for calculating the "current_a" (the "_b" are equal to the "_a"). To calibrate (if you can measure the current) you change current_a (in my case I had to increase it a bit), and the spreadsheet gives you the value for active_power.
 
 For a higher limit you must decrease the resistance. I also included the calculation in the sheet
