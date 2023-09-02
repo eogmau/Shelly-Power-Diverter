@@ -1,5 +1,5 @@
 # Shelly Power Diverter
-Power diverter of excess solar production using a Shelly 2.5
+Power diverter of excess solar production using a Shelly 2.5(ESP8266) or Shelly Plus 2PM(ESP32) with changes to the GPIO PINs
 
 In small scale grid-tied solar production, surplus power (production in excess of local consumption) is injected **for free** back into the grid. 
 
