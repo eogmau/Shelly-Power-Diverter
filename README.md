@@ -1,5 +1,5 @@
 # Attention
-The DEV branch is based on latest Esphome codebase with functionality not tested yet, code compiles correctly.
+The DEV branch is based on latest Esphome codebase, not all functionality implemented.
 
 # Shelly Power Diverter
 Power diverter of excess solar production using a Shelly 2.5(ESP8266) or Shelly Plus 2PM(ESP32) with changes to the GPIO PINs
